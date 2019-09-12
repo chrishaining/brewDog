@@ -1,28 +1,47 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<template lang="html">
+  <div>
+    <h1>BrewDog</h1>
+    <beer-filter-form :beers="beers" />
+    <beer-detail :beer="selectedBeer" :favouriteBeers="favouriteBeers" />
+    <favourite-beers :favouriteBeers="favouriteBeers" />
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BeerFilterForm from './components/BeerFilterForm'
+import BeerDetail from './components/BeerDetail'
+import FavouriteBeers from './components/FavouriteBeers'
+import { eventBus } from './main'
 
 export default {
-  name: 'app',
+  data() {
+    return {
+      beers: [],
+      selectedBeer: null,
+      favouriteBeers: []
+    }
+  },
   components: {
-    HelloWorld
+    "beer-filter-form": BeerFilterForm,
+    "beer-detail": BeerDetail,
+    "favourite-beers": FavouriteBeers
+  },
+  mounted() {
+    fetch('https://api.punkapi.com/v2/beers')
+    .then(result => result.json())
+    .then(beers => this.beers = beers)
+
+    eventBus.$on('beer-selected', (beer) => {
+      this.selectedBeer = beer;
+    })
+    eventBus.$on('favourite-beer', (beer) => {
+      this.favouriteBeers.push(beer);
+    })
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="css" scoped>
+
 </style>
