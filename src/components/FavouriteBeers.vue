@@ -1,10 +1,13 @@
 <template lang="html">
   <div>
     <label for="beer-selection">Favourite beers: </label>
-    <select v-on:change="handleSelect" v-model="favouriteBeer">
-      <option value="" disabled selected>Select a favourite beer...</option>
-      <option v-for="beer in favouriteBeers" :value="beer">{{beer.name}}</option>
-    </select>
+    <ul>
+      <li v-for="beer in favouriteBeers" :value="beer">{{beer.name}}</li>
+    </ul>
+    <!-- <select v-on:change="handleSelect" v-model="favouriteBeer"> -->
+      <!-- <option value="" disabled selected>Select a favourite beer...</option> -->
+      <!-- <option v-for="beer in favouriteBeers" :value="beer">{{beer.name}}</option> -->
+    <!-- </select> -->
   </div>
 </template>
 
@@ -20,8 +23,8 @@ export default {
   },
   props: ["favouriteBeers"],
   methods: {
-    handleSelect(){
-      eventBus.$emit("beer-selected", this.selectedBeer)
+    handleClick(){
+      eventBus.$emit("favourite-beer", this.favouriteBeer)
     }
   }
 
