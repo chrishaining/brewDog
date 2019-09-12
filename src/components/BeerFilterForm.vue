@@ -1,5 +1,6 @@
 <template lang="html">
   <div>
+    <label for="beer-selection">Select a beer: </label>
     <select v-on:change="handleSelect" v-model="selectedBeer">
       <option value="" disabled selected>Select a beer...</option>
       <option v-for="beer in beers" :value="beer">{{beer.name}}</option>
